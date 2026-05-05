@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d3f87711423acb4e967fdb276c1b933, type: 3}
+  m_Name: first enemy
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnSO
+  _arena: first
+  _enemySpawnDatas:
+  - _enemyPrefab: {fileID: 348572400559625969, guid: ca40ba1d253bc594bbfb977751587cb9, type: 3}
+    _timeInterval: {x: 0, y: 3}
+    _enemyName: knight
+    _enemySpawnType: 0
+  - _enemyPrefab: {fileID: 348572400559625969, guid: ca40ba1d253bc594bbfb977751587cb9, type: 3}
+    _timeInterval: {x: 2, y: 5}
+    _enemyName: knight
+    _enemySpawnType: 0
+  - _enemyPrefab: {fileID: 348572400559625969, guid: ca40ba1d253bc594bbfb977751587cb9, type: 3}
+    _timeInterval: {x: 4, y: 10}
+    _enemyName: knight
+    _enemySpawnType: 0
+  - _enemyPrefab: {fileID: 348572400559625969, guid: ca40ba1d253bc594bbfb977751587cb9, type: 3}
+    _timeInterval: {x: 9, y: 15}
+    _enemyName: knight
+    _enemySpawnType: 0
+  - _enemyPrefab: {fileID: 348572400559625969, guid: 509e6198093c0f241a6cbdf8f970f281, type: 3}
+    _timeInterval: {x: 12, y: 15}
+    _enemyName: BossKnight
+    _enemySpawnType: 2

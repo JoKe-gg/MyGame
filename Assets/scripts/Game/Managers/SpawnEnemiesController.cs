@@ -1,0 +1,90 @@
+using UnityEngine;
+using System.Collections.Generic;
+
+
+public class SpawnEnemiesController : MonoBehaviour
+{
+    [SerializeField] private List<EnemySpawnSO> _enemySpawnSOList;
+    [SerializeField] private GameObject _player;
+
+    [SerializeField] private float _minSpawnRadius = 14f;
+    [SerializeField] private float _maxSpawnRadius = 18f;
+    [SerializeField] private int Limit = 100;
+    private float Timer = 0f;
+    private EnemyPool _enemyPool;
+    private bool _isAbleToSpawn = true;
+
+    private void Start()
+    {
+        _enemyPool = GameManager.instance.EnemyPool;
+        _player = GameObject.FindGameObjectWithTag("Player");
+    }
+    private void OnEnable()
+    {
+        StateManager.instance.OnStateChanged += OnStateChanged;
+    }
+    private Vector2 GetSpawnPosition()
+    {
+        if (_player == null) return Vector2.zero;
+        float angle = Random.Range(0f, Mathf.PI * 2f);
+        float distance = Random.Range(_minSpawnRadius, _maxSpawnRadius);
+        Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+        return (Vector2)_player.transform.position + direction * distance;
+    }
+    public int GetAmountOfExistedEnemies()
+    {
+
+        int totalAmountOfEnemy;
+
+        totalAmountOfEnemy = GameObject.FindGameObjectsWithTag("Enemy").Length;
+
+        return Limit - totalAmountOfEnemy;
+    }
+    private void FixedUpdate()
+    {
+        if (GameTimer.Instance.ElapsedTime - Timer >= 2f && _isAbleToSpawn)
+        {
+            Timer = GameTimer.Instance.ElapsedTime;
+            SpawnEnemy();
+        }
+    }
+    private void OnStateChanged(RuntimeState state)
+    {
+        switch (state)
+        {
+            case RuntimeState.Victory: 
+                SetAbleSpawner(false);
+                break;
+            case RuntimeState.GameOver:
+                SetAbleSpawner(false);
+                break;
+            default: 
+                break;
+        }
+    }
+    private void SetAbleSpawner(bool value)
+    {
+        _isAbleToSpawn = value;
+    }
+    private void SpawnEnemy()
+    {
+        if (_player == null)
+        {
+            return;
+        }
+        int randomAmountLimit = GetAmountOfExistedEnemies() / 8;
+        if (randomAmountLimit <= 0)
+        {
+            return;
+        }
+        int randomAmountOfEnemy = Random.Range(0, randomAmountLimit + 1);
+        for (int i = 0; i < randomAmountLimit; i++) 
+        {
+            Enemy enemy = _enemyPool.GetEnemy(out ObjectPool<Enemy> pool);
+            if (enemy != null)
+            {
+                enemy.Initialize(pool, GetSpawnPosition());
+            }
+        }
+    }
+}
