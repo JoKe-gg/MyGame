@@ -12,7 +12,7 @@ public class Shooting : Weapon
     private TotalUpgrade _damageUpgrade;
     private int _flatModifier = 0;
     private float _multipleModifier = 1;
-    void Start()
+    private void Start()
     {
         bool error = false;
         _projectilePool = GameManager.instance.ProjectilePool;
@@ -91,7 +91,16 @@ public class Shooting : Weapon
     }
     private DamageData GetDamage(DamageData damage)
     {
-        damage = new DamageData(Mathf.RoundToInt((damage.Amount + _flatModifier) * _multipleModifier), damage.DamageType, _playerCalculateUpgrades.gameObject);
+        int amountOfDamage = damage.Amount;
+        if (_constUpgradeSO != null)
+        {
+            var modifierData = _constUpgradeSO.StatModifierData;
+
+            amountOfDamage = Mathf.RoundToInt(modifierData.ModifierType == ModifierType.Multiple
+                ? amountOfDamage * modifierData.Modifier
+                : amountOfDamage + modifierData.Modifier);
+        }
+        damage = new DamageData(Mathf.RoundToInt((amountOfDamage + _flatModifier) * _multipleModifier), damage.DamageType, _playerCalculateUpgrades.gameObject);
         return damage;
     }
 }

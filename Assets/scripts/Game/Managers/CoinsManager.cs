@@ -23,9 +23,9 @@ public class CoinsManager : MonoBehaviour
         Coins += coins;
         OnCoinsChanged?.Invoke(Coins);
     }
-    public bool TrySpendCoins(int RequiredAmount)
+    public bool TrySpendCoins(int requiredAmount)
     {
-        if (RequiredAmount <= Coins)
+        if (requiredAmount <= Coins)
         {
             return true;
         }

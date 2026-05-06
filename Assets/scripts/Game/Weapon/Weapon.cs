@@ -12,6 +12,7 @@ public abstract class Weapon : MonoBehaviour
     private float _cooldown = 0.2f;
     private float _abilityCooldown = 3f;
     [SerializeField] protected List<NegativeEffectData> _effectsData = new();
+    protected ConstUpgradeSO _constUpgradeSO;
     private void Awake()
     {
         _totalUpgradeStorage = GetComponentInParent<TotalUpgradeStorage>();
@@ -20,6 +21,10 @@ public abstract class Weapon : MonoBehaviour
             Debug.LogError($"Null reference to {nameof(_totalUpgradeStorage)} in the script {nameof(Weapon)}");
             return;
         }
+    }
+    private void Start()
+    {
+        _constUpgradeSO = ConstUpgradeManager.instance.GetConstUpgrade(ConstUpgradeType.Damage);
     }
     private void OnEnable()
     {

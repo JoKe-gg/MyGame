@@ -10,6 +10,7 @@ public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private Vector3 _startScale;
     private Vector3 _currentRequiredScale;
     bool _toChange = false;
+    bool _isAbleToHover = true;
     private void Awake()
     {
         if (!TryGetComponent(out RectTransform rectTransform))
@@ -24,7 +25,7 @@ public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
     }
     private void Update()
     {
-        if (_toChange)
+        if (_toChange && _isAbleToHover)
         {
             if (Vector2.Distance(_rectTransform.localScale, _currentRequiredScale) <= 0.1f)
             {
@@ -44,7 +45,11 @@ public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        _currentRequiredScale = _startScale;
         _toChange = true;
+        _currentRequiredScale = _startScale;
+    }
+    public void SetEnableHover(bool enable)
+    {
+        _isAbleToHover = enable;
     }
 }
