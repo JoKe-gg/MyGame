@@ -512,15 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   _content: {fileID: 1772146834}
   _constPrefab: {fileID: 1071528561666474033, guid: 43966c1c3f0a7284299d85ae4db8a4ca, type: 3}
-  _constUpgradeSO:
-  - {fileID: 11400000, guid: 677215574716801459a29d54746819e0, type: 2}
-  - {fileID: 11400000, guid: 677215574716801459a29d54746819e0, type: 2}
-  - {fileID: 11400000, guid: 677215574716801459a29d54746819e0, type: 2}
-  - {fileID: 11400000, guid: 677215574716801459a29d54746819e0, type: 2}
-  - {fileID: 11400000, guid: 677215574716801459a29d54746819e0, type: 2}
-  - {fileID: 11400000, guid: 677215574716801459a29d54746819e0, type: 2}
-  - {fileID: 11400000, guid: 677215574716801459a29d54746819e0, type: 2}
-  - {fileID: 11400000, guid: b1d42b494759acf4ba190ae153c4f541, type: 2}
+  _constUpgradeBase: {fileID: 11400000, guid: 940ff63479ecc75479e38bb3826e2037, type: 2}
 --- !u!1 &181698240
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,6 +37,5 @@ public class EnemySensor : MonoBehaviour
             : null;
         _enemyBrain.ChangeState(EnemyState.buttle);
         OnUrgentTarget?.Invoke(target);
-        Debug.Log($"Target = {target}");
     }
 }

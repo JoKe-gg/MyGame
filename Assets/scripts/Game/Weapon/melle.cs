@@ -4,7 +4,8 @@ using UnityEngine;
 public enum WeaponState
 {
     Idle,
-    Attack
+    Attack,
+    Ability
 }
 public class melee : Weapon
 {
@@ -12,7 +13,10 @@ public class melee : Weapon
     [SerializeField] private PlayerCalculateUpgrades _playerCalculateUpgrades;
     [SerializeField] private WeaponTransform _weaponTransform;
     private TotalUpgrade _damageUpgrade;
+    private DamageData _baseDamageData;
+    private DamageData _baseAbilityDamageData;
     private DamageData _damageData;
+    private DamageData _abilityDamageData;
     [SerializeField]private MeleeAttackBehaviour _meleeAttackBehaviour;
     [SerializeField] private Animator _animator;
     private bool _isAbleToStartAttack = true;
@@ -56,7 +60,8 @@ public class melee : Weapon
             Destroy(gameObject);
             return;
         }
-        _damageData = _weaponStatsSO.DamageData;
+        _baseDamageData = _weaponStatsSO.DamageData; 
+        _baseAbilityDamageData = _weaponStatsSO.AbilityDamageData;
         SetCooldown(_weaponStatsSO.CoolDown);
         _playerCalculateUpgrades.OnUpgradeCalculationFinished += UpdateUpgrade;
         UpdateUpgrade();
@@ -67,28 +72,21 @@ public class melee : Weapon
     }
     protected override void Attack()
     {
-        if (!_isAbleToStartAttack)
-        {
-            return;
-        }
-        _isAbleToStartAttack = false;
+        _meleeAttackBehaviour.SetDamage(_damageData);
         SeSetAnimatorState(WeaponState.Attack);
+        _cooldown = _weaponStatsSO.CoolDown;
+        _abilityCooldown = _weaponStatsSO.AbilityCoolDown;
     }
     protected override void UseAbility()
     {
-        throw new System.NotImplementedException();
+        _meleeAttackBehaviour.SetDamage(_abilityDamageData);
+        SeSetAnimatorState(WeaponState.Ability);
     }
     public void EnableAttackCollider() {
         _meleeAttackBehaviour.EnableCollider(true);
     }
-    public void DisableAttackCollider() {
+    public void DisableAttackCollider(WeaponState weaponState) {
         _meleeAttackBehaviour.EnableCollider(false);
-        StartCoroutine(Cooldown(_weaponStatsSO.CoolDown));
-    }
-    private IEnumerator Cooldown(float sec)
-    {
-        yield return new WaitForSeconds(sec);
-        _isAbleToStartAttack = true;
     }
     public void SeSetAnimatorState(WeaponState weaponState)
     {
@@ -102,11 +100,10 @@ public class melee : Weapon
             Debug.LogWarning("Damage upgrade not ready yet");
             return;
         }
-        int damage = Mathf.RoundToInt((_damageData.Amount + _damageUpgrade.FlatModifierTotal) * _damageUpgrade.MultipleModifierTotal);
-        DamageData damageData = new DamageData(damage, _damageData.DamageType, _playerCalculateUpgrades.gameObject);
-
-
-        _meleeAttackBehaviour.SetDamage(damageData);
+        int damage = Mathf.RoundToInt((_baseDamageData.Amount + _damageUpgrade.FlatModifierTotal) * _damageUpgrade.MultipleModifierTotal);
+        int abilityDamage = Mathf.RoundToInt((_baseAbilityDamageData.Amount + _damageUpgrade.FlatModifierTotal) * _damageUpgrade.MultipleModifierTotal);
+        _damageData = new DamageData(damage, _baseDamageData.DamageType, _playerCalculateUpgrades.gameObject);
+        _abilityDamageData = new DamageData(abilityDamage, _baseAbilityDamageData.DamageType, _playerCalculateUpgrades.gameObject);
         _meleeAttackBehaviour.SetEffectsList(_effectsData);
     }
 }

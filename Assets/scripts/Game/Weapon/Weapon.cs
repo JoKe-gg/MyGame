@@ -9,8 +9,8 @@ public abstract class Weapon : MonoBehaviour
     protected TotalUpgradeStorage  _totalUpgradeStorage;
     private bool _isAbleToAttack = true;
     private bool _isAbleToUseAbility = true;
-    private float _cooldown = 0.2f;
-    private float _abilityCooldown = 3f;
+    protected float _cooldown = 0.2f;
+    protected float _abilityCooldown = 3f;
     [SerializeField] protected List<NegativeEffectData> _effectsData = new();
     protected ConstUpgradeSO _constUpgradeSO;
     private void Awake()

@@ -39,11 +39,6 @@ public class ConstUpgradeManager : MonoBehaviour
         else
         {
             ConstUpgradeList[constUpgradeType] = constUpgradeSO;
-        }
-        Debug.Log($"New Const added: {constUpgradeSO.Name}\n" +
-                  $"{{ {constUpgradeSO.ConstUpgradeType} : " +  
-                  $"{constUpgradeSO.StatModifierData.ModifierType} modifier : " +  
-                  $"{constUpgradeSO.StatModifierData.Modifier} }}");  
-                    
+        }    
     }
 }

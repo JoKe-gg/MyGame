@@ -15,12 +15,22 @@ MonoBehaviour:
   _weaponType: 0
   _weaponName: 
   _projectileSpeed: 0
+  _abilityProjectileSpeed: 0
   _damageData:
     Amount: 20
     DamageType: 0
     Source: {fileID: 0}
     IgnoreDefense: 0
     IgnoreInvincibility: 0
+  _abilityDamageData:
+    Amount: 30
+    DamageType: 0
+    Source: {fileID: 0}
+    IgnoreDefense: 0
+    IgnoreInvincibility: 0
   _coolDown: 0.2
+  _abilityCoolDown: 10
   _penetration: 0
+  _abilityPenetration: 0
   _speed: 0
+  _abilitySpeed: 0

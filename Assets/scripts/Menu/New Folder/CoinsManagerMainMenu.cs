@@ -23,6 +23,7 @@ public class CoinsManagerMainMenu : MonoBehaviour
         if (value > 0) { 
             Coins += value;
             OnCoinsChanged?.Invoke(Coins);
+            SaveCoins();
         }
     }
     public bool TrySpendCoins(int value)
@@ -34,11 +35,16 @@ public class CoinsManagerMainMenu : MonoBehaviour
         if (TrySpendCoins(value))
         {
             Coins -= value;
-            OnCoinsChanged?.Invoke(Coins);
+            OnCoinsChanged?.Invoke(Coins); 
+            SaveCoins();
         }
         else
         {
             Debug.Log("Not enough coins to purchase");
         }
+    }
+    public void SaveCoins()
+    {
+        PlayerPrefs.SetInt(PlayerPrefsKeys.PlayerCoins, Coins);
     }
 }
