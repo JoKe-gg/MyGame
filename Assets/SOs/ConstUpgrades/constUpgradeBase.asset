@@ -14,6 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::constUpgradeBase
   _constUpgradeList:
   - {fileID: 11400000, guid: b1d42b494759acf4ba190ae153c4f541, type: 2}
-  - {fileID: 11400000, guid: 09f0bfb3cf75a664aa43ae09808aee04, type: 2}
-  - {fileID: 11400000, guid: eb09a2c3c0edd6c499f9bdbc47fdc13f, type: 2}
   - {fileID: 11400000, guid: 677215574716801459a29d54746819e0, type: 2}

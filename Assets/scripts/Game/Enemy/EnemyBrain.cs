@@ -27,7 +27,6 @@ public class EnemyBrain : MonoBehaviour
     {
         if (Time.time > nextTimeTick)
         {
-            Debug.Log($"Current state of {gameObject.name} is {_currentState}");
             nextTimeTick = Time.time + interval;
         }
     }

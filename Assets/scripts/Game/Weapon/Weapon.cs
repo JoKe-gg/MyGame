@@ -12,7 +12,7 @@ public abstract class Weapon : MonoBehaviour
     protected float _cooldown = 0.2f;
     protected float _abilityCooldown = 3f;
     [SerializeField] protected List<NegativeEffectData> _effectsData = new();
-    protected ConstUpgradeSO _constUpgradeSO;
+    protected ConstUpgradeData _constUpgradeSO;
     private void Awake()
     {
         _totalUpgradeStorage = GetComponentInParent<TotalUpgradeStorage>();

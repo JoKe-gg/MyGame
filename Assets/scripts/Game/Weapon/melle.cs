@@ -100,10 +100,26 @@ public class melee : Weapon
             Debug.LogWarning("Damage upgrade not ready yet");
             return;
         }
-        int damage = Mathf.RoundToInt((_baseDamageData.Amount + _damageUpgrade.FlatModifierTotal) * _damageUpgrade.MultipleModifierTotal);
-        int abilityDamage = Mathf.RoundToInt((_baseAbilityDamageData.Amount + _damageUpgrade.FlatModifierTotal) * _damageUpgrade.MultipleModifierTotal);
-        _damageData = new DamageData(damage, _baseDamageData.DamageType, _playerCalculateUpgrades.gameObject);
-        _abilityDamageData = new DamageData(abilityDamage, _baseAbilityDamageData.DamageType, _playerCalculateUpgrades.gameObject);
+        _damageData = new DamageData(_baseDamageData.Amount, _baseDamageData.DamageType, _playerCalculateUpgrades.gameObject);
+        _abilityDamageData = new DamageData(_baseAbilityDamageData.Amount, _baseAbilityDamageData.DamageType, _playerCalculateUpgrades.gameObject);
+        _damageData = GetDamage(_damageData);
+        _abilityDamageData = GetDamage(_abilityDamageData);
+
+
         _meleeAttackBehaviour.SetEffectsList(_effectsData);
+    }
+    private DamageData GetDamage(DamageData damage)
+    {
+        int amountOfDamage = damage.Amount;
+        if (_constUpgradeSO != null)
+        {
+            var modifierData = _constUpgradeSO.StatModifierData;
+
+            amountOfDamage = Mathf.RoundToInt(modifierData.ModifierType == ModifierType.Multiple
+                ? amountOfDamage * modifierData.Modifier
+                : amountOfDamage + modifierData.Modifier);
+        }
+        damage = new DamageData(Mathf.RoundToInt((amountOfDamage + _damageUpgrade.FlatModifierTotal) * _damageUpgrade.MultipleModifierTotal), damage.DamageType, _playerCalculateUpgrades.gameObject);
+        return damage;
     }
 }

@@ -4,18 +4,23 @@ using UnityEngine.SceneManagement;
 public class ActionsOfPanels : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
+    private int? _sceneIndex = null;
     public void RestartArena()
     {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (_sceneIndex != null) return;
+        _sceneIndex = SceneManager.GetActiveScene().buildIndex;
         PauseManager.instance.Reset();
-        CoinsManager.instance.SaveCoins();
-        SceneManager.LoadScene(currentSceneIndex);
+        SaveManager.instance.SaveGame();
+        SceneManager.LoadScene(_sceneIndex.Value);
     }
+
     public void GoToMainMenu()
     {
+        if (_sceneIndex != null) return;
+        _sceneIndex = 0;
         PauseManager.instance.Reset();
-        CoinsManager.instance.SaveCoins();
-        SceneManager.LoadScene(0);
+        SaveManager.instance.SaveGame();
+        SceneManager.LoadScene(_sceneIndex.Value);
     }
     public void Resume()
     {

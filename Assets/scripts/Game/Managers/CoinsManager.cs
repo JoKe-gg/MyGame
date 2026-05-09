@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
-
-public class CoinsManager : MonoBehaviour
+using System.Collections;
+public class CoinsManager : MonoBehaviour, ISavable
 {
     public static CoinsManager instance;
     public int Coins { get; private set;}
@@ -18,10 +18,42 @@ public class CoinsManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void OnEnable()
+    {
+        if (SaveManager.instance != null)
+        {
+            SaveManager.instance.Register(this);
+        }
+        else
+        {
+            Debug.Log($"SAVE MANAGER IS NOT READY");
+            StartCoroutine(WaitToRegister());
+        }
+    }
+    private void OnDisable()
+    {
+        if (SaveManager.instance != null)
+        {
+            SaveManager.instance.Unregister(this);
+        }
+    }
+    private IEnumerator WaitToRegister()
+    {
+        yield return new WaitForEndOfFrame();
+        if (SaveManager.instance != null)
+        {
+            SaveManager.instance.Register(this);
+        }
+        else
+        {
+            Debug.Log($"SAVE MANAGER IS NOT READY IN COROUTINE");
+        }
+    }
     public void AddCoins(int coins)
     {
         Coins += coins;
         OnCoinsChanged?.Invoke(Coins);
+
     }
     public bool TrySpendCoins(int requiredAmount)
     {
@@ -34,9 +66,15 @@ public class CoinsManager : MonoBehaviour
             return false; 
         }
     }
-    public void SaveCoins()
+    public void Load(DataSave dataSave)
     {
-        int currentSavedCoins = PlayerPrefs.GetInt(PlayerPrefsKeys.PlayerCoins);
-        PlayerPrefs.SetInt(PlayerPrefsKeys.PlayerCoins, Coins+currentSavedCoins);
+        return;
+    }
+    public void Save(DataSave dataSave)
+    {
+        if (dataSave != null)
+        {
+            dataSave.SetCoins(dataSave.Coins + Coins);
+        }
     }
 }
