@@ -37,6 +37,10 @@ public class MainMenuActions : MonoBehaviour
     }
     public void ExitFromGame()
     {
+        if(SaveManager.instance != null)
+        {
+            SaveManager.instance.SaveGame();
+        }
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

@@ -6,7 +6,7 @@ using System;
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager instance { get; private set; }
-    private HashSet<ISavable> _savables = new();
+    private HashSet<Savable> _savables = new();
     public event Action OnGameSaved;
     string _path;
 
@@ -30,17 +30,16 @@ public class SaveManager : MonoBehaviour
     private IEnumerator WaitToLoad()
     {
         yield return new WaitForEndOfFrame();
-        Debug.Log($"Amount of registered: {_savables.Count}");
         LoadGame();
     }
-    public void Register(ISavable savable)
+    public void Register(Savable savable)
     {
         if (!_savables.Contains(savable)){
             _savables.Add(savable);
         }
         StartCoroutine(WaitToLoad());
     }
-    public void Unregister(ISavable savable)
+    public void Unregister(Savable savable)
     {
         if (_savables.Contains(savable))
         {

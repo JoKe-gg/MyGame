@@ -13,11 +13,11 @@ public class ConstUpgradeUIData
         CurrentLevel = currentLevel;
     }
 }
-public class ConstUpgradeManager : MonoBehaviour, ISavable
+public class ConstUpgradeManager : Savable
 {
     public static ConstUpgradeManager instance { get; private set; }
     [SerializeField] private constUpgradeBase _constUpgradeBase;
-    public List<ConstUpgradeUIData> ConstUpgradeListForUI { get; private set; } = new();
+    public List<ConstUpgradeUIData> GetConstUpgradeListForUI => GetConstUpgradeListUI();
     public Dictionary<ConstUpgradeType, ConstUpgradeData> ConstUpgradeDictionary { get; private set; } = new();
     private void Awake()
     {
@@ -31,10 +31,8 @@ public class ConstUpgradeManager : MonoBehaviour, ISavable
             Destroy(gameObject);
         }
     }
-    public void Load(DataSave dataSave)
+    public override void Load(DataSave dataSave)
     {
-        Debug.Log($"CONST IS BEING LOADED");
-        ConstUpgradeListForUI.Clear();
         ConstUpgradeDictionary.Clear();
         foreach (var item in dataSave.ConstUpgradeList)
         {
@@ -51,6 +49,10 @@ public class ConstUpgradeManager : MonoBehaviour, ISavable
                 }
             }
         }
+    }
+    private List<ConstUpgradeUIData> GetConstUpgradeListUI()
+    {
+        List<ConstUpgradeUIData> NewConstUpgradeDictionary = new();
         foreach (var constUpgrade in _constUpgradeBase.ConstUpgradeList)
         {
             int level = 0;
@@ -59,12 +61,13 @@ public class ConstUpgradeManager : MonoBehaviour, ISavable
                 level = data.Level;
             }
             ConstUpgradeUIData constUpgradeUIData = new(constUpgrade, level);
-            
 
-            ConstUpgradeListForUI.Add(constUpgradeUIData);
+
+            NewConstUpgradeDictionary.Add(constUpgradeUIData);
         }
+        return NewConstUpgradeDictionary;
     }
-    public void Save(DataSave dataSave)
+    public override void Save(DataSave dataSave)
     {
         dataSave.ConstUpgradeList.Clear();
 
@@ -72,37 +75,6 @@ public class ConstUpgradeManager : MonoBehaviour, ISavable
         {
             ConstUpgradeDataSave constUpgradeDataSave = new(item.Value.Level, item.Key);
             dataSave.ConstUpgradeList.Add(constUpgradeDataSave);
-        }
-    }
-    private void OnEnable()
-    {
-        if (SaveManager.instance != null)
-        {
-            SaveManager.instance.Register(this);
-        }
-        else
-        {
-            Debug.Log($"SAVE MANAGER IS NOT READY");
-            StartCoroutine(WaitToRegister());
-        }
-    }
-    private void OnDisable()
-    {
-        if (SaveManager.instance != null)
-        {
-            SaveManager.instance.Unregister(this);
-        }
-    }
-    private IEnumerator WaitToRegister()
-    {
-        yield return new WaitForEndOfFrame();
-        if (SaveManager.instance != null)
-        {
-            SaveManager.instance.Register(this);
-        }
-        else
-        {
-            Debug.Log($"SAVE MANAGER IS NOT READY IN COROUTINE");
         }
     }
     public ConstUpgradeData GetConstUpgrade(ConstUpgradeType constUpgradeType)

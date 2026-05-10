@@ -11,7 +11,7 @@ public class ConstUpgradeFiller : MonoBehaviour
 
     private void OnEnable()
     {
-        _constUpgradeBase = ConstUpgradeManager.instance.ConstUpgradeListForUI;
+        _constUpgradeBase = ConstUpgradeManager.instance.GetConstUpgradeListForUI;
         Debug.Log($"Const upgrade base amount = {_constUpgradeBase.Count}");
         ClearUI();
         InitializeConstantUpgrades();
