@@ -16,7 +16,7 @@ MonoBehaviour:
     _basicMaxHealth: 100
     _basicResist: 3
     _expForKillingRange: {x: 5, y: 10}
-    _coinsForKillingRange: {x: 2, y: 8}
+    _coinsForKillingRange: {x: 0, y: 3}
     _basicDamageData:
       Amount: 10
       DamageType: 0
@@ -24,3 +24,4 @@ MonoBehaviour:
       IgnoreDefense: 0
       IgnoreInvincibility: 0
     _basicMovementSpeed: 1.5
+    _intervalBetweenAttacks: 0.1
