@@ -7,6 +7,7 @@ public class PlayerChoiceSetter : MonoBehaviour
     [SerializeField] private Image _weaponSprite;
     [SerializeField] private Image _playerSprite;
     [SerializeField] private TextMeshProUGUI _playerName;
+    [SerializeField] private GameObject _purchasePanel;
     private int _playerIndex;
     public void SetChoice(Sprite weaponSprite, Sprite playerSprite, int playerIndex, string PlayerName)
     {

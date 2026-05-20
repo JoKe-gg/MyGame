@@ -6,8 +6,9 @@ public class CoinsManager : Savable
     public static CoinsManager instance;
     public int Coins { get; private set;}
     public event Action<int> OnCoinsChanged;
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (instance == null)
         {
             instance = this;

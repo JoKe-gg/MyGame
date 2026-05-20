@@ -25,8 +25,9 @@ public class ConstUpgradeManager : Savable
     [SerializeField] private UpgradeBaseSO _constUpgradeBase;
     public List<ConstUpgradeUIData> ConstUpgradeListForUI => GetConstUpgradeListUI();
     public Dictionary<int, UpgradeSO> ConstUpgradeDictionary { get; private set; } = new();
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (instance == null)
         {
             instance = this;
@@ -68,6 +69,10 @@ public class ConstUpgradeManager : Savable
                     : 0;
                 NewConstUpgradeDictionary[constBasicUpgrade.Id] = new(constBasicUpgrade, startLevel);
             }
+        }
+        if (NewConstUpgradeDictionary .Count == 0)
+        {
+            return new List<ConstUpgradeUIData>();
         }
         return NewConstUpgradeDictionary.Values.ToList();
     }

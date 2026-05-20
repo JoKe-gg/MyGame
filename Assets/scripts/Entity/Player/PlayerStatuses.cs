@@ -18,4 +18,5 @@ public class PlayerStatuses : MonoBehaviour
     }
     public void AddNewEffect(NegativeEffectData negativeEffectData) => _totalUpgradeStorage.AddNewEffect(negativeEffectData);
     public void AddNewUpgrade(UpgradeSO levelUpgradeSO) => _upgradeDataBase.AddNewUpgrade(levelUpgradeSO);
+    public void RestoreHP(int value) => GetComponent<PlayerHealth>().RestoreHP(value);
 }

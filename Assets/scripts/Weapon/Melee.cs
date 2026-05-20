@@ -21,7 +21,6 @@ public class Melee : Weapon
     private DamageData _abilityDamageData;
     [SerializeField]private MeleeAttackBehaviour _meleeAttackBehaviour;
     [SerializeField] private Animator _animator;
-    private bool _isAbleToStartAttack = true;
     protected override void Start()
     {
         base.Start();

@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: BasicBoss
   m_EditorClassIdentifier: Assembly-CSharp::BasicStatsEnemySO
   basicStats:
+    _enemyType: 1
     _basicMaxHealth: 500
     _basicResist: 0
     _expForKillingRange: {x: 5, y: 10}
     _coinsForKillingRange: {x: 2, y: 8}
+    _data:
+      _regards: 0000000001000000
+      _playerId: 1
+      _mapId: 2
     _basicDamageData:
       Amount: 20
       DamageType: 0
@@ -24,3 +29,4 @@ MonoBehaviour:
       IgnoreDefense: 0
       IgnoreInvincibility: 0
     _basicMovementSpeed: 3
+    _intervalBetweenAttacks: 0.1

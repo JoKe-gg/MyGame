@@ -21,6 +21,7 @@ public class WeaponStatsSO : ScriptableObject
     [SerializeField] private int _abilityPenetration;
     [SerializeField] private float _speed;
     [SerializeField] private float _abilitySpeed;
+    [SerializeField] private AudioClip _audioClip;
 
     public int WeaponType => (int)_weaponType;
     public string WeaponTypeName => _weaponType.ToString();
@@ -35,4 +36,5 @@ public class WeaponStatsSO : ScriptableObject
     public int AbilityPenetration => _abilityPenetration;
     public float Speed => _speed;
     public float AbilitySpeed => _abilitySpeed;
+    public AudioClip AudioClip => _audioClip;
 }

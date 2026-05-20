@@ -34,3 +34,4 @@ MonoBehaviour:
   _abilityPenetration: 50
   _speed: 20
   _abilitySpeed: 10
+  _audioClip: {fileID: 8300000, guid: 1e16c40a3864da14fa04f5f37a2b562e, type: 3}

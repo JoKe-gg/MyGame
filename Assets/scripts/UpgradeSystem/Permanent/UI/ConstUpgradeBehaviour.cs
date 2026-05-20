@@ -70,9 +70,19 @@ public class ConstUpgradeBehaviour : MonoBehaviour
     }
     public void AddUpgrade()
     {
-        if (ConstUpgradeManager.instance == null) return;
-        if (CoinsManagerMainMenu.instance == null) { return; }
-        if (_upgradeSODictionary == null) return;
+        Debug.Log("Pressed this");
+        if (ConstUpgradeManager.instance == null)
+        {
+            return;
+        }
+        if (CoinsManagerMainMenu.instance == null) 
+        {
+            return;
+        }
+        if (_upgradeSODictionary == null) 
+        {
+            return;
+        }
         UpgradeSO constUpgrade = _upgradeSODictionary[Level];
         CoinsManagerMainMenu.instance.SpendCoins(_price);
         ConstUpgradeManager.instance.AddConstUpgrade(constUpgrade);

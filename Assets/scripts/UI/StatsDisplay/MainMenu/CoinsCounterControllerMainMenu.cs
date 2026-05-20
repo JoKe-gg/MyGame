@@ -13,10 +13,10 @@ public class CoinsCounterControllerMainMenu : MonoBehaviour
         }
     }
     private void OnEnable()
-    {
-        OnChangeCoins(CoinsManagerMainMenu.instance.Coins);
+    {   
         if (CoinsManagerMainMenu.instance != null)
         {
+            OnChangeCoins(CoinsManagerMainMenu.instance.Coins);
             CoinsManagerMainMenu.instance.OnCoinsChanged += OnChangeCoins;
         }
     }

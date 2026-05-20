@@ -1,6 +1,4 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Shooting : Weapon
@@ -11,8 +9,6 @@ public class Shooting : Weapon
     [SerializeField] private WeaponTransform _weaponTransform;
     private ProjectilePool _projectilePool;
     private TotalUpgrade _damageUpgrade;
-    private int _flatModifier = 0;
-    private float _multipleModifier = 1;
     protected override void Start()
     {
         base.Start();
@@ -63,6 +59,7 @@ public class Shooting : Weapon
     }
     protected override void Attack()
     {
+        MusicManager.instance.PlayEffect(_weaponStatsSO.AudioClip);
         DamageData _basicDamageData = _weaponStatsSO.DamageData;
         DamageData damage = GetDamage(_basicDamageData);
         float speed = _weaponStatsSO.Speed * 2f * (_weaponTransform.IsFlipped() ? -1 : 1);
@@ -72,6 +69,7 @@ public class Shooting : Weapon
     }
     protected override void UseAbility()
     {
+        MusicManager.instance.PlayEffect(_weaponStatsSO.AudioClip);
         DamageData _basicDamageData = _weaponStatsSO.AbilityDamageData;
         DamageData damage = GetDamage(_basicDamageData);
         float speed = _weaponStatsSO.AbilitySpeed * 2f * (_weaponTransform.IsFlipped() ? -1 : 1);
@@ -87,9 +85,6 @@ public class Shooting : Weapon
             Debug.LogWarning("Damage upgrade not ready yet");
             return;
         }
-
-        _flatModifier = _damageUpgrade.FlatModifierTotal;
-        _multipleModifier = _damageUpgrade.MultipleModifierTotal;
     }
     private DamageData GetDamage(DamageData damage)
     {

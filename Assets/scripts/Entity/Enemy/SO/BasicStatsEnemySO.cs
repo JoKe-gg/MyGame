@@ -4,4 +4,8 @@ using UnityEngine;
 public class BasicStatsEnemySO : ScriptableObject
 {
     public BasicStatsEnemy basicStats;
+    private void OnValidate()
+    {
+        basicStats.OnValidate();
+    }
 }

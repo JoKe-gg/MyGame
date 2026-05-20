@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 {
 
     [SerializeField] private GameObject _expGem;
+    [SerializeField] private float _invincibilityTime = 0.12f;
     private BasicStatsEnemySO _basicStatsEnemySO;
     private Enemy _enemy;
     private EnemyMovement _enemyMovement;
@@ -40,11 +41,17 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         _resistance = _basicStatsEnemySO.basicStats.BasicResist;
         _health = _maxHealth;
         _basicStatsEnemySO = _enemy.BasicStatsEnemySO;
-        StateManager.instance.OnStateChanged += OnStateChanged;
+    }
+    private void OnEnable()
+    {
+        if (StateManager.instance != null)
+            StateManager.instance.OnStateChanged += OnStateChanged;
     }
     private void OnDisable()
     {
         StopAllCoroutines();
+        if (StateManager.instance != null)
+            StateManager.instance.OnStateChanged -= OnStateChanged;
         _isAbleToAttack = true;
     }
     private void OnStateChanged(RuntimeState state)
@@ -52,21 +59,23 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         switch (state)
         {
             case RuntimeState.Victory:
-                _isDead = true;
-                StopAllCoroutines();
-                _enemy.ReturnToPool();
-                break;
+                {
+                    _isDead = true;
+                    StopAllCoroutines();
+                    if (!TryGetComponent(out BossBehaviour bossBehavioe))
+                    {
+                        _enemy.ReturnToPool();
+                    }
+                    break;
+                }
             default:
                 break;
         }
     }
-    public void TakeDamage(DamageData damageData)
+    public void TakeDamage(DamageData damageData, float knockback = 0)
     {
         TakeDamageLogic(damageData);
-    }
-    public void TakeDamage(DamageData damageData, float knockback)
-    {
-        TakeDamageLogic(damageData);
+        if (knockback > 0)
         _enemyMovement.KnockBack(knockback);
     }
     private void TakeDamageLogic(DamageData damageData)
@@ -104,7 +113,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     private IEnumerator InvincibilityFrames()
     {
         _isAbleToAttack = false;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(_invincibilityTime);
         _isAbleToAttack = true;
     }
     public void RestoreHP(int healing) 
@@ -132,10 +141,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         StopAllCoroutines();
         DropGem();
         AccrueCoins();
-        if (TryGetComponent<BossBehaviour>(out BossBehaviour bossBehaviour))
+        if (TryGetComponent(out BossBehaviour bossBehaviour))
         {
-            Debug.Log("Exist component");
-            bossBehaviour.OnBossDied(_enemy.ReturnToPool);
+            bossBehaviour.OnBossDied();
         }
         else
         {

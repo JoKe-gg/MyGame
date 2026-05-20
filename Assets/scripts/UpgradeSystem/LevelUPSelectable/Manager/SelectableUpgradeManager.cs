@@ -1,26 +1,40 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+public class UpgradeChoiceResult
+{
+    public List<UpgradeSO> Choices { get; private set;}
+    public bool IsStub { get; private set; }
+    public UpgradeChoiceResult(List<UpgradeSO> choices) : this(choices, false)
+    {
+        Choices = choices;
+    }
+    public UpgradeChoiceResult(List<UpgradeSO> choices, bool isStub)
+    {
+        Choices = choices;
+        IsStub = isStub;
+    }
+}
 public class SelectableUpgradeManager : MonoBehaviour
 {
     [SerializeField] private UpgradeBaseSO _originUpgrades;
-    private List<UpgradeSO> _upgrades;
+    private List<UpgradeSO> _upgrades = new();
     private void Awake()
     {
         _upgrades = new(_originUpgrades.UpgradeList);
     }
-    public List<UpgradeSO> GetChoices(int requiredAmount = 2)
+    public UpgradeChoiceResult GetChoices(int requiredAmount = 2)
     {
-        if (_upgrades == null || _upgrades.Count == 0)
+        if (_upgrades.Count == 0)
         {
-            return new List<UpgradeSO>();
+            return new UpgradeChoiceResult(_originUpgrades.StubList, true);
         }
         List<UpgradeSO> availableSelectableUpgrades = GetAvailableChoices();
         List<UpgradeSO> choices = new();
 
         if (availableSelectableUpgrades.Count <= requiredAmount)
         {
-            return availableSelectableUpgrades;
+            return new UpgradeChoiceResult(availableSelectableUpgrades);
         }
 
         for (int i = 0; i < requiredAmount; i++)
@@ -30,7 +44,7 @@ public class SelectableUpgradeManager : MonoBehaviour
             choices.Add(newSelect);
             availableSelectableUpgrades.RemoveAt(randIndex);
         }
-        return choices;
+        return new UpgradeChoiceResult(choices);
     }
     private List<UpgradeSO> GetAvailableChoices()
     {

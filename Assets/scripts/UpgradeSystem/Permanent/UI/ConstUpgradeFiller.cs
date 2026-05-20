@@ -6,15 +6,22 @@ public class ConstUpgradeFiller : MonoBehaviour
     [Header("Filler options")]
     [SerializeField] private Transform _content;
     [SerializeField] private GameObject _constPrefab;
-    private List<ConstUpgradeUIData> _constUpgradeBase;
+    private List<ConstUpgradeUIData> _constUpgradeBase = new();
     private Dictionary<int, ConstUpgradeBehaviour> _constUpgradeDictionary = new();
 
     private void OnEnable()
     {
-        _constUpgradeBase = ConstUpgradeManager.instance.ConstUpgradeListForUI;
-        Debug.Log($"Const upgrade base amount = {_constUpgradeBase.Count}");
-        ClearUI();
-        InitializeConstantUpgrades();
+        if (ConstUpgradeManager.instance != null)
+        {
+            _constUpgradeBase = ConstUpgradeManager.instance.ConstUpgradeListForUI;
+            
+            ClearUI(); 
+            if (_constUpgradeBase.Count > 0)
+            {
+                Debug.Log($"Const upgrade base amount = {_constUpgradeBase.Count}");
+                InitializeConstantUpgrades();
+            }
+        }
     }
     private void ClearUI()
     {

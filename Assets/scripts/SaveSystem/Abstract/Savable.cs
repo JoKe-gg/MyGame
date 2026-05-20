@@ -3,41 +3,26 @@ using UnityEngine;
 
 public abstract class Savable : MonoBehaviour
 {
+    [SerializeField] private SaveManagerSO _saveManagerSO;
+    public SaveManagerSO SaveManager => _saveManagerSO;
     public abstract void Load(DataSave saveData);
     public abstract void Save(DataSave saveData);
-    private Coroutine _coroutine;
+    protected virtual void Awake()
+    {
+        if (_saveManagerSO == null)
+        {
+            Debug.LogError($"Null reference to Save manager ", this);
+            Destroy(gameObject);
+            return;
+        }
+        _saveManagerSO.Register(this);
+    }
     protected virtual void OnEnable()
     {
-        if (SaveManager.instance != null)
-        {
-            SaveManager.instance.Register(this);
-        }
-        else
-        {
-            _coroutine = StartCoroutine(WaitToRegister());
-        }
+        _saveManagerSO.Register(this);
     }
     protected virtual void OnDisable()
     {
-        if (_coroutine != null)
-        {
-            StopCoroutine(_coroutine);
-            _coroutine = null;
-        }
-        if (SaveManager.instance != null)
-        {
-            SaveManager.instance.Unregister(this);
-        }
-    }
-    private IEnumerator WaitToRegister()
-    {
-        
-        while (SaveManager.instance == null)
-        {
-            yield return null;
-        }
-        SaveManager.instance.Register(this);
-       _coroutine = null;
-
+        _saveManagerSO.Unregister(this);
     }
 }

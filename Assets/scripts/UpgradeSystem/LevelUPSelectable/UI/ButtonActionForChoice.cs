@@ -7,6 +7,7 @@ public class ButtonActionForChoice : MonoBehaviour
     private UpgradeSO _upgradeSO;
     private SetSelects _setSelects;
     private SelectableUpgradeManager _selectableUpgradeManager;
+    bool _isStub = false;
     public void AddSelectable()
     {
         if (_upgradeSO == null)
@@ -15,17 +16,41 @@ public class ButtonActionForChoice : MonoBehaviour
             return;
         }
         PlayerStatuses playerStatuses = PlayerSpawnManager.CurrentPlayer.GetComponent<PlayerStatuses>();
-        if (_upgradeSO.LevelUpgradeData != null)
-            playerStatuses.AddNewUpgrade(_upgradeSO);
-        if (_upgradeSO.EffectData != null) { }
-            playerStatuses.AddNewEffect(_upgradeSO.EffectData);
+        if (_isStub)
+        {
+            if (_upgradeSO.StubData != null)
+            {
+                switch (_upgradeSO.StubData.StubType)
+                {
+                    case StubType.regenerationHP:
+                        int regenValue = Mathf.Max(_upgradeSO.StubData.Value, 0);
+                        playerStatuses.RestoreHP(regenValue);
+                        break;
+                    case StubType.coins:
+                        int coinsValue = Mathf.Max(_upgradeSO.StubData.Value, 0);
+                        CoinsManager.instance.AddCoins(coinsValue);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        else {
+            if (_upgradeSO.LevelUpgradeData != null){
+                playerStatuses.AddNewUpgrade(_upgradeSO);
+            }
+            if (_upgradeSO.EffectData != null){
+                playerStatuses.AddNewEffect(_upgradeSO.EffectData);
+            }
+            _selectableUpgradeManager.RemoveChoice(_upgradeSO);
+        }
         _setSelects.CloseSelectPanel();
-        _selectableUpgradeManager.RemoveChoice(_upgradeSO);
     }
-    public void SetSelectableUpgrade(UpgradeSO upgradeSO, SetSelects setSelect, SelectableUpgradeManager selectableUpgradeManager)
+    public void SetSelectableUpgrade(UpgradeSO upgradeSO, SetSelects setSelect, SelectableUpgradeManager selectableUpgradeManager, bool isStub = false)
     {
         _setSelects = setSelect;
         _upgradeSO = upgradeSO;
         _selectableUpgradeManager = selectableUpgradeManager;
+        _isStub=isStub;
     }
 }

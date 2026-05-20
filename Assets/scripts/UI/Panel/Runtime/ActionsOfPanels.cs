@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class ActionsOfPanels : MonoBehaviour
 {
+    [SerializeField] private SaveManagerSO _saveManagerSO;
     [SerializeField] private GameObject panel;
     private int? _sceneIndex = null;
     public void RestartArena()
@@ -10,7 +11,7 @@ public class ActionsOfPanels : MonoBehaviour
         if (_sceneIndex != null) return;
         _sceneIndex = SceneManager.GetActiveScene().buildIndex;
         PauseManager.instance.Reset();
-        SaveManager.instance.SaveGame();
+        _saveManagerSO.SaveGame();
         SceneManager.LoadScene(_sceneIndex.Value);
     }
 
@@ -19,8 +20,16 @@ public class ActionsOfPanels : MonoBehaviour
         if (_sceneIndex != null) return;
         _sceneIndex = 0;
         PauseManager.instance.Reset();
-        SaveManager.instance.SaveGame();
+        _saveManagerSO.SaveGame();
         SceneManager.LoadScene(_sceneIndex.Value);
+    }
+    public void OpenPanel(GameObject panel)
+    {
+        panel.SetActive(true);
+    }
+    public void ClosePanel(GameObject panel)
+    {
+        panel.SetActive(false);
     }
     public void Resume()
     {

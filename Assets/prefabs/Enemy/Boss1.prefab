@@ -374,6 +374,7 @@ GameObject:
   - component: {fileID: 1854875712374675119}
   - component: {fileID: 2733285963320599705}
   - component: {fileID: 3142742753353299460}
+  - component: {fileID: 8574415580349836196}
   m_Layer: 7
   m_Name: Boss1
   m_TagString: Enemy
@@ -688,3 +689,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce678f76d226b940b8d8b27f367f2df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossBehaviour
+  _saveManagerSO: {fileID: 11400000, guid: 130da24e8c708274680aab610a8b598e, type: 2}
+--- !u!114 &8574415580349836196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7733816810372265930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc3ec2e90ffda754297b580af6a1b883, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySensor
+  _intervalBetweenUrgentPlayer: 0.1

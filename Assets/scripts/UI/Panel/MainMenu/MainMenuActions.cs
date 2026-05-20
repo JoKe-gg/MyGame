@@ -3,6 +3,7 @@ using UnityEngine.Device;
 
 public class MainMenuActions : MonoBehaviour
 {
+    [SerializeField] private SaveManagerSO _saveManagerSO;
     [SerializeField] private GameObject _playerSelectPanel;
     [SerializeField] private GameObject _mapSelectPanel;
     public void StartArena(int index)
@@ -32,14 +33,13 @@ public class MainMenuActions : MonoBehaviour
     }
     public void ClosePanel(GameObject panel)
     {
-        if (panel != null)
-            panel.SetActive(false);
+        panel.SetActive(false);
     }
     public void ExitFromGame()
     {
-        if(SaveManager.instance != null)
+        if(_saveManagerSO != null)
         {
-            SaveManager.instance.SaveGame();
+            _saveManagerSO.SaveGame();
         }
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

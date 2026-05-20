@@ -90,6 +90,16 @@ public class TotalUpgradeStorage : MonoBehaviour
         }
         OnEffectListChanged?.Invoke(GetEffects());
     }
+    public bool TryGetTotalUpgrade(StatType statType, out TotalUpgrade totalUpgrade)
+    {
+        if (_totalUpgrades.ContainsKey(statType))
+        {
+            totalUpgrade = _totalUpgrades[statType];
+            return true;
+        }
+        totalUpgrade = null;
+        return false;
+    }
     public TotalUpgrade GetTotalUpgrade(StatType statType)
     {
         if (_totalUpgrades.ContainsKey(statType))

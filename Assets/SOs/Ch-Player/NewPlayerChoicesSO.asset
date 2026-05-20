@@ -12,12 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 115d5a42844e6ab49aebd70eeed7377e, type: 3}
   m_Name: NewPlayerChoicesSO
   m_EditorClassIdentifier: Assembly-CSharp::PlayerChoicesSO
-  _playerChoicesData:
-  - PlayerIndex: 0
+  _defaultPlayerChoicesData:
+    PlayerId: 0
     PlayerSprite: {fileID: -6510884235319969201, guid: cca55b2c2082b304687b11e64563d6e5, type: 3}
     WeaponSprite: {fileID: -138225970440836940, guid: a6a09577a7b2eb64fa35fd2fb18e6bf4, type: 3}
     PlayerName: Gunner
-  - PlayerIndex: 1
+    Price: 0
+  _playerChoicesData:
+  - PlayerId: 1
     PlayerSprite: {fileID: -6510884235319969201, guid: cca55b2c2082b304687b11e64563d6e5, type: 3}
     WeaponSprite: {fileID: 21300000, guid: 0762859cc1821b44ca6d8a01894938d0, type: 3}
     PlayerName: Knight
+    Price: 1200
+  - PlayerId: 2
+    PlayerSprite: {fileID: -6510884235319969201, guid: cca55b2c2082b304687b11e64563d6e5, type: 3}
+    WeaponSprite: {fileID: 21300000, guid: 0762859cc1821b44ca6d8a01894938d0, type: 3}
+    PlayerName: Knight
+    Price: 2500

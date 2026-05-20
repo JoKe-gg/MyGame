@@ -14,6 +14,7 @@ public class UpgradeSO : ScriptableObject
     [Header("Modifier data")]
     [SerializeField] private NegativeEffectData _effectData;
     [SerializeField] private LevelUPUpgradeData _levelUpgradeData;
+    [SerializeField] private StubData _stubData;
     public int Id => _id;
     public string Name => _name;
     public string Description => _description;
@@ -22,6 +23,7 @@ public class UpgradeSO : ScriptableObject
     public int Price => _price;
     public NegativeEffectData EffectData => _effectData;
     public LevelUPUpgradeData LevelUpgradeData => _levelUpgradeData;
+    public StubData StubData => _stubData;
     private void OnValidate()
     {
         if (_level <= 0)
@@ -43,8 +45,9 @@ public enum StatType
     MaxHP,
     EXPBonus,
     RegenerationHP,
-    Shield
+    Shield,
 }
+
 [Serializable]
 public class LevelUPUpgradeData
 {
@@ -84,4 +87,18 @@ public class StatModifierData
                 break;
         }
     }
+}
+public enum StubType
+{
+    coins,
+    regenerationHP
+}
+[Serializable]
+public class StubData
+{
+    [SerializeField] private StubType _stubType;
+    [SerializeField, Min(1)] private int _value;
+
+    public StubType StubType => _stubType;
+    public int Value => _value;
 }

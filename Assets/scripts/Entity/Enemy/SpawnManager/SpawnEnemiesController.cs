@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Tilemaps;
 
 
 public class SpawnEnemiesController : MonoBehaviour
 {
     [SerializeField] private List<EnemySpawnSO> _enemySpawnSOList;
+    [SerializeField] private Tilemap _arenaTileMap;
     //Target to spawn around
     private GameObject _player;
     [Header("Spawner Settings")] 
@@ -30,10 +32,22 @@ public class SpawnEnemiesController : MonoBehaviour
     private Vector2 GetSpawnPosition()
     {
         if (_player == null) return Vector2.zero;
-        float angle = Random.Range(0f, Mathf.PI * 2f);
-        float distance = Random.Range(_minSpawnRadius, _maxSpawnRadius);
-        Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-        return (Vector2)_player.transform.position + direction * distance;
+
+        const int maxAttempts = 50;
+
+        for (int i = 0; i < maxAttempts; ++i)
+        {
+            float angle = Random.Range(0f, Mathf.PI * 2f);
+            float distance = Random.Range(_minSpawnRadius, _maxSpawnRadius);
+            Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+            Vector2 spawnPosition = (Vector2)_player.transform.position + direction * distance;
+            Vector3Int cellPos = _arenaTileMap.WorldToCell(spawnPosition);
+            if (_arenaTileMap.HasTile(cellPos))
+            {
+                return spawnPosition;
+            }
+        }
+        return _player.transform.position;
     }
     public int GetAmountOfExistedEnemies()
     {

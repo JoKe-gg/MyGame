@@ -7,8 +7,9 @@ public class CoinsManagerMainMenu : Savable
     public static CoinsManagerMainMenu instance;
     public int Coins {get; private set;} = 0;
     public event Action<int> OnCoinsChanged;
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (instance == null)
         {
             instance = this;
@@ -17,6 +18,10 @@ public class CoinsManagerMainMenu : Savable
         {
             Destroy(gameObject);
         }
+    }
+    private void Start()
+    {
+        SaveManager.LoadGame();
     }
     public void AddCoins(int value)
     {
@@ -27,11 +32,16 @@ public class CoinsManagerMainMenu : Savable
     }
     public bool TrySpendCoins(int value)
     {
-        return Coins >= value;
+        bool isAbleToSpendCoins = Coins >= value;
+        if (isAbleToSpendCoins)
+        {
+            SpendCoins(value);
+        }
+        return isAbleToSpendCoins;
     }
     public void SpendCoins(int value)
     {
-        if (TrySpendCoins(value))
+        if (Coins >= value)
         {
             Coins -= value;
             OnCoinsChanged?.Invoke(Coins);
@@ -47,6 +57,7 @@ public class CoinsManagerMainMenu : Savable
         {
             Coins = dataSave.Coins;
             OnCoinsChanged?.Invoke(Coins);
+            Debug.Log("Coins are accrued");
         }
     }
     public override void Save(DataSave dataSave)
